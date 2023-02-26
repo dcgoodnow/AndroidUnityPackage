@@ -11,6 +11,7 @@ jobs:
     uses: dcgoodnow/AndroidUnityPackage/.github/workflows/tag-version.yml@part4-github-actions
     with:
       dryrun: true
+      prerelease: true
   build-android:
     name: Build Android Plugin
     uses: dcgoodnow/AndroidUnityPackage/.github/workflows/build-android.yml@part4-github-actions
@@ -28,3 +29,5 @@ jobs:
     secrets: inherit
     permissions: 
       contents: write
+    with: 
+      prerelease: true
