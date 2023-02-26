@@ -1,0 +1,35 @@
+name: Build Android Plugin
+run-name: Building Android Plugin on ${{ github.actor }}
+on: workflow_call
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: docker://fabernovel/android:api-33-v1.7.0
+
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v3
+        
+      - name: Gradle cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            /root/.gradle/caches
+            /root/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build
+        run: |
+          cd ./android~
+          chmod +x ./gradlew
+          ./gradlew assembleRelease
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with: 
+          name: android-plugin
+          path: Plugins/Android/*.aar
