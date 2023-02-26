@@ -12,6 +12,11 @@ on:
         default: false
         required: false
         type: boolean
+      prerelease:
+        description: "Whether or not this is a prerelease build"
+        default: false
+        required: false
+        type: boolean
 
 jobs:
   tag:
@@ -30,6 +35,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
           DRY_RUN: ${{ inputs.dryrun }}
-          RELEASE_BRANCHES: main
-          PRERELEASE: true
+          PRERELEASE: ${{ inputs.prerelease }}
           PRERELEASE_SUFFIX: ${{ github.head_ref || github.ref_name }}-pre
